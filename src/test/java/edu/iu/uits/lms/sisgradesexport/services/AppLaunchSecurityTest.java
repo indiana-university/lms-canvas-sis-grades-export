@@ -1,9 +1,9 @@
-package edu.iu.uits.lms.sisgradeexport.services;
+package edu.iu.uits.lms.sisgradesexport.services;
 
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
-import edu.iu.uits.lms.sisgradeexport.config.ToolConfig;
-import edu.iu.uits.lms.sisgradeexport.controller.ToolController;
+import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
+import edu.iu.uits.lms.sisgradesexport.controller.ToolController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

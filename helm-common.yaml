@@ -1,9 +1,9 @@
-nameOverride: sisgradeexport
+nameOverride: sis-grades-export
 
 namespace: ua-vpit--enterprise-systems--lms
 
 image:
-  repository: registry.docker.iu.edu/lms/sisgradeexport
+  repository: registry.docker.iu.edu/lms/sis-grades-export
   tag: unstable
   pullPolicy: Always
 

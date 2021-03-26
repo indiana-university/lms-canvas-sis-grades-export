@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradeexport.controller;
+package edu.iu.uits.lms.sisgradesexport.controller;
 
 import canvas.helpers.CanvasConstants;
 import edu.iu.uits.lms.lti.LTIConstants;
@@ -24,7 +24,7 @@ import java.util.Map;
 @Controller
 @RequestMapping({"/lti"})
 @Slf4j
-public class SisGradeExportTemplateLtiController extends LtiController {
+public class SisGradesExportTemplateLtiController extends LtiController {
 
     private boolean openLaunchUrlInNewWindow = false;
 

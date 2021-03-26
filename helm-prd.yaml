@@ -14,5 +14,5 @@ env:
 ingress:
   enabled: true
   hosts:
-    - host: "sisgradeexport.apps.iu.edu"
+    - host: "sis-grades-export.apps.iu.edu"
       paths: []

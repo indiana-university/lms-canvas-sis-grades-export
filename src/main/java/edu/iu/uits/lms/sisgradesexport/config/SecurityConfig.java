@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradeexport.config;
+package edu.iu.uits.lms.sisgradesexport.config;
 
 import edu.iu.uits.lms.common.oauth.CustomJwtAuthenticationConverter;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;

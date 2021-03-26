@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradeexport.config;
+package edu.iu.uits.lms.sisgradesexport.config;
 
 import lombok.Getter;
 import lombok.Setter;

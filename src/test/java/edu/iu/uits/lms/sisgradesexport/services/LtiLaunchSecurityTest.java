@@ -1,7 +1,7 @@
-package edu.iu.uits.lms.sisgradeexport.services;
+package edu.iu.uits.lms.sisgradesexport.services;
 
-import edu.iu.uits.lms.sisgradeexport.config.ToolConfig;
-import edu.iu.uits.lms.sisgradeexport.controller.SisGradeExportTemplateLtiController;
+import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
+import edu.iu.uits.lms.sisgradesexport.controller.SisGradesExportTemplateLtiController;
 import lti.client.generated.api.LtiAuthApi;
 import lti.client.generated.api.LtiPropsApi;
 import lti.client.generated.model.LmsLtiAuthz;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(SisGradeExportTemplateLtiController.class)
+@WebMvcTest(SisGradesExportTemplateLtiController.class)
 @Import(ToolConfig.class)
 @ActiveProfiles("none")
 public class LtiLaunchSecurityTest {
