@@ -24,7 +24,7 @@ import java.util.Map;
 @Controller
 @RequestMapping({"/lti"})
 @Slf4j
-public class SisGradesExportTemplateLtiController extends LtiController {
+public class SisGradesExportLtiController extends LtiController {
 
     private boolean openLaunchUrlInNewWindow = false;
 
@@ -84,7 +84,7 @@ public class SisGradesExportTemplateLtiController extends LtiController {
         if (openLaunchUrlInNewWindow)
             return LAUNCH_MODE.WINDOW;
 
-        return LAUNCH_MODE.FORWARD;
+        return LAUNCH_MODE.NORMAL;
     }
 
     /**

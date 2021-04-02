@@ -1,13 +1,16 @@
 package edu.iu.uits.lms.sisgradesexport.services;
 
+import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
 import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
-import edu.iu.uits.lms.sisgradesexport.controller.ToolController;
+import edu.iu.uits.lms.sisgradesexport.controller.SisGradesExportController;
+import edu.iu.uits.lms.sisgradesexport.service.SisGradesExportService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,13 +26,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ToolController.class)
+@WebMvcTest(SisGradesExportController.class)
 @Import(ToolConfig.class)
 @ActiveProfiles("none")
 public class AppLaunchSecurityTest {
 
    @Autowired
    private MockMvc mvc;
+
+   @MockBean
+   private SisGradesExportService sisGradesExportService;
 
    @Test
    public void appNoAuthnLaunch() throws Exception {
@@ -44,7 +50,7 @@ public class AppLaunchSecurityTest {
    public void appAuthnWrongContextLaunch() throws Exception {
       LtiAuthenticationToken token = new LtiAuthenticationToken("userId",
             "asdf", "systemId",
-            AuthorityUtils.createAuthorityList(LtiAuthenticationProvider.LTI_USER_ROLE, "authority"),
+            AuthorityUtils.createAuthorityList(LTIConstants.INSTRUCTOR_AUTHORITY, LtiAuthenticationProvider.LTI_USER_ROLE),
             "unit_test");
 
       SecurityContextHolder.getContext().setAuthentication(token);
@@ -63,7 +69,7 @@ public class AppLaunchSecurityTest {
    public void appAuthnLaunch() throws Exception {
       LtiAuthenticationToken token = new LtiAuthenticationToken("userId",
             "1234", "systemId",
-            AuthorityUtils.createAuthorityList(LtiAuthenticationProvider.LTI_USER_ROLE, "authority"),
+            AuthorityUtils.createAuthorityList(LTIConstants.INSTRUCTOR_AUTHORITY, LtiAuthenticationProvider.LTI_USER_ROLE),
             "unit_test");
 
       SecurityContextHolder.getContext().setAuthentication(token);
@@ -88,7 +94,7 @@ public class AppLaunchSecurityTest {
    public void randomUrlWithAuth() throws Exception {
       LtiAuthenticationToken token = new LtiAuthenticationToken("userId",
             "1234", "systemId",
-            AuthorityUtils.createAuthorityList(LtiAuthenticationProvider.LTI_USER_ROLE, "authority"),
+            AuthorityUtils.createAuthorityList(LTIConstants.INSTRUCTOR_AUTHORITY, LtiAuthenticationProvider.LTI_USER_ROLE),
             "unit_test");
       SecurityContextHolder.getContext().setAuthentication(token);
 

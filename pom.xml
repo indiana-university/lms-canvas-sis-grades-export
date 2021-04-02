@@ -20,8 +20,9 @@
         <docker_repository_name>sis-grades-export</docker_repository_name>
         <docker_tag>stable</docker_tag>
         <helm_service_name>sis-grades-export</helm_service_name>
+        <opencsv.version>2.4</opencsv.version>
         <jquery.version>3.5.1</jquery.version>
-        <lms-bom.version>4.0.5</lms-bom.version>
+        <lms-bom.version>4.0.6-SNAPSHOT</lms-bom.version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +37,11 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+           <groupId>net.sf.opencsv</groupId>
+           <artifactId>opencsv</artifactId>
+            <version>${opencsv.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
