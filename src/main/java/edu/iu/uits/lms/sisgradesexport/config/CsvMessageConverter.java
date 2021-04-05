@@ -1,6 +1,6 @@
 package edu.iu.uits.lms.sisgradesexport.config;
 
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVWriter;
 import edu.iu.uits.lms.sisgradesexport.model.CsvResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpInputMessage;
@@ -42,7 +42,7 @@ public class CsvMessageConverter extends AbstractHttpMessageConverter<CsvRespons
         if (!response.isQuoteStrings()) {
             quoteChar = CSVWriter.NO_QUOTE_CHARACTER;
         }
-        writer = new CSVWriter(new OutputStreamWriter(out), ',', quoteChar);
+        writer = new CSVWriter(new OutputStreamWriter(out), ',', quoteChar, '"', "\n");
 
         log.debug("CSV Columns: " + response.getColumns().size());
         log.debug("CSV Rows: " + response.getRecords().size());
