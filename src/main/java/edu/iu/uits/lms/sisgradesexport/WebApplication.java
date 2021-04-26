@@ -7,8 +7,9 @@ import edu.iu.uits.lms.common.server.ServerInfo;
 import edu.iu.uits.lms.common.server.ServerUtils;
 import edu.iu.uits.lms.lti.config.EnableGlobalErrorHandler;
 import edu.iu.uits.lms.lti.config.EnableLtiClient;
-import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
 import edu.iu.uits.lms.redis.config.EnableRedisConfiguration;
+import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
+import iuonly.config.EnableIuOnlyClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -31,6 +32,7 @@ import java.util.Date;
 @EnableCookieFilter(ignoredRequestPatterns = {"/rest/**"})
 @EnableLtiClient
 @EnableCanvasClient
+@EnableIuOnlyClient
 @EnableConfigurationProperties(GitRepositoryState.class)
 public class WebApplication {
 

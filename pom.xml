@@ -21,7 +21,7 @@
         <docker_tag>stable</docker_tag>
         <helm_service_name>sis-grades-export</helm_service_name>
         <jquery.version>3.5.1</jquery.version>
-        <lms-bom.version>4.0.8</lms-bom.version>
+        <lms-bom.version>4.0.11</lms-bom.version>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +89,10 @@
         <dependency>
             <groupId>edu.iu.uits.lms</groupId>
             <artifactId>common-configuration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>edu.iu.uits.lms</groupId>
+            <artifactId>lms-iuonly-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>

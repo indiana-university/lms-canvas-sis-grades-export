@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class SecurityConfig {
 
     @Configuration
-    @Order(SecurityProperties.BASIC_AUTH_ORDER - 3)
+    @Order(SecurityProperties.BASIC_AUTH_ORDER - 4)
     public static class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         @Override
@@ -42,6 +42,27 @@ public class SecurityConfig {
             web.ignoring().antMatchers("/app/jsrivet/**", "/app/webjars/**", "/actuator/**", "/app/css/**", "/app/js/**");
         }
 
+    }
+
+    @Configuration
+    @Order(SecurityProperties.BASIC_AUTH_ORDER - 3)
+    public static class RestSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            http.requestMatchers().antMatchers("/rest/**")
+                  .and()
+                  .authorizeRequests()
+                  .antMatchers("/rest/sis/grades/**")
+                  .access("hasAuthority('SCOPE_lms:sis:grades') or (hasAuthority('SCOPE_lms:rest') and hasAuthority('ROLE_LMS_REST_ADMINS'))")
+                  .antMatchers("/rest/**")
+                  .access("hasAuthority('SCOPE_lms:rest') and hasAuthority('ROLE_LMS_REST_ADMINS')")
+                  .and()
+                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                  .and()
+                  .oauth2ResourceServer()
+                  .jwt().jwtAuthenticationConverter(new CustomJwtAuthenticationConverter());
+        }
     }
 
     @Configuration
