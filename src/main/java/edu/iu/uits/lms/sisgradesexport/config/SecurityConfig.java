@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.microservicestemplate.config;
+package edu.iu.uits.lms.sisgradesexport.config;
 
 import edu.iu.uits.lms.common.oauth.CustomJwtAuthenticationConverter;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;
@@ -44,7 +44,6 @@ public class SecurityConfig {
 
     }
 
-
     @Configuration
     @Order(SecurityProperties.BASIC_AUTH_ORDER - 3)
     public static class RestSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -54,6 +53,8 @@ public class SecurityConfig {
             http.requestMatchers().antMatchers("/rest/**")
                   .and()
                   .authorizeRequests()
+                  .antMatchers("/rest/sis/grades/**")
+                  .access("hasAuthority('SCOPE_lms:sis:grades') or (hasAuthority('SCOPE_lms:rest') and hasAuthority('ROLE_LMS_REST_ADMINS'))")
                   .antMatchers("/rest/**")
                   .access("hasAuthority('SCOPE_lms:rest') and hasAuthority('ROLE_LMS_REST_ADMINS')")
                   .and()
