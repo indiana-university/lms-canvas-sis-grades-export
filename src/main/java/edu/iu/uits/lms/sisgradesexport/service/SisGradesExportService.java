@@ -49,7 +49,7 @@ public class SisGradesExportService {
 
         List<Object[]> data = new ArrayList<Object[]>();
         List<String> columns = Arrays.asList(new String[]{gradeType});
-        log.debug("Preparing to write out grade to csv file...");
+        log.debug("Preparing to write out grades to csv file for course {}...", courseId);
 
         List<Enrollment> enrollments = coursesApi.getStudentCourseEnrollment(courseId);
 
@@ -73,6 +73,7 @@ public class SisGradesExportService {
      * @return
      */
     public ResponseEntity getInfoForSisFromSisSectionId(String sisSectionId) {
+        log.debug("getInfoForSisFromSisSectionId({})", sisSectionId);
         if (sisSectionId == null || "".equals(sisSectionId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
