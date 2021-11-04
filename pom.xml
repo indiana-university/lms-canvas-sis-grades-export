@@ -4,7 +4,7 @@
     <artifactId>sis-grades-export</artifactId>
     <packaging>jar</packaging>
     <name>sis-grades-export</name>
-    <version>4.0.1</version>
+    <version>4.0.2</version>
 
     <parent>
         <artifactId>lms2Wow</artifactId>

@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -52,6 +54,10 @@ public class SisGradesExportService {
         log.debug("Preparing to write out grades to csv file for course {}...", courseId);
 
         List<Enrollment> enrollments = coursesApi.getStudentCourseEnrollment(courseId);
+
+        enrollments = enrollments.stream()
+                .sorted(Comparator.comparing(e -> (e.getUser().getSortableName())))
+                .collect(Collectors.toList());
 
         for (Enrollment enrollment : enrollments) {
             Grades grades = overrideCurrentAndFinalGrades(enrollment.getGrades());
