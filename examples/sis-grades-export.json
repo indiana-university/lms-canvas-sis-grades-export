@@ -1,5 +1,5 @@
 {
-  "title": "Start a New Course",
+  "title": "SIS Grades Export",
   "description": "LTI tool which exports sis grades",
   "oidc_initiation_url": "http://localhost:8080/lti/login_initiation/lms_sis_grade_export",
   "target_link_uri": "http://localhost:8080/app/launch",
