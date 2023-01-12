@@ -1,8 +1,8 @@
 package edu.iu.uits.lms.sisgradesexport.model;
 
-import canvas.client.generated.model.Grades;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.iu.uits.lms.canvas.model.Grades;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,45 +1,46 @@
 package edu.iu.uits.lms.sisgradesexport.services;
 
-import canvas.client.generated.api.CoursesApi;
-import canvas.client.generated.api.SectionsApi;
-import canvas.client.generated.model.Course;
-import canvas.client.generated.model.Enrollment;
-import canvas.client.generated.model.Grades;
-import canvas.client.generated.model.User;
+import edu.iu.uits.lms.canvas.model.Course;
+import edu.iu.uits.lms.canvas.model.Enrollment;
+import edu.iu.uits.lms.canvas.model.Grades;
+import edu.iu.uits.lms.canvas.model.User;
+import edu.iu.uits.lms.canvas.services.CourseService;
+import edu.iu.uits.lms.canvas.services.SectionService;
+import edu.iu.uits.lms.iuonly.services.SudsServiceImpl;
 import edu.iu.uits.lms.sisgradesexport.model.CsvResponse;
 import edu.iu.uits.lms.sisgradesexport.service.SisGradeAuditService;
 import edu.iu.uits.lms.sisgradesexport.service.SisGradesExportService;
-import iuonly.client.generated.api.SudsApi;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
-@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes={SisGradesExportService.class})
+@SpringBootTest
 @ActiveProfiles("none")
 public class SisGradesExportServiceTest {
-   @InjectMocks
+   @Autowired
    private SisGradesExportService sisGradesExportService;
 
-   @Mock
-   private CoursesApi coursesApi;
+   @MockBean
+   private CourseService courseService;
 
-   @Mock
-   private SectionsApi sectionsApi;
+   @MockBean
+   private SectionService sectionService;
 
-   @Mock
-   private SudsApi sudsApi;
+   @MockBean
+   private SudsServiceImpl sudsService;
 
-   @Mock
+   @MockBean
    private SisGradeAuditService sisGradeAuditService;
 
    @Test
@@ -77,25 +78,25 @@ public class SisGradesExportServiceTest {
 
       final String courseId = "1234";
 
-      Mockito.when(coursesApi.getStudentCourseEnrollment(courseId))
+      Mockito.when(courseService.getStudentCourseEnrollment(courseId))
               .thenReturn(Arrays.asList(enrollment1, enrollment2, enrollment3));
 
       Course returnedCourse = new Course();
       returnedCourse.setSisCourseId(courseId);
 
-      Mockito.when(coursesApi.getCourse(any(String.class))).thenReturn(returnedCourse);
+      Mockito.when(courseService.getCourse(any(String.class))).thenReturn(returnedCourse);
 
       CsvResponse csvResponse = sisGradesExportService.exportGradesForSis(courseId);
-      Assert.assertNotNull(csvResponse);
+      Assertions.assertNotNull(csvResponse);
 
       List<Object[]> records = csvResponse.getRecords();
-      Assert.assertNotNull(records);
+      Assertions.assertNotNull(records);
 
-      Assert.assertEquals(3, records.size());
+      Assertions.assertEquals(3, records.size());
 
       // Make sure they are sorted by sortable name
-      Assert.assertEquals("5555", records.get(0)[0]);
-      Assert.assertEquals("9999", records.get(1)[0]);
-      Assert.assertEquals("1111", records.get(2)[0]);
+      Assertions.assertEquals("5555", records.get(0)[0]);
+      Assertions.assertEquals("9999", records.get(1)[0]);
+      Assertions.assertEquals("1111", records.get(2)[0]);
    }
 }

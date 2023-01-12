@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradesexport.controller;
+package edu.iu.uits.lms.sisgradesexport.controller.rest;
 
 import edu.iu.uits.lms.sisgradesexport.service.SisGradesExportService;
 import lombok.extern.slf4j.Slf4j;
