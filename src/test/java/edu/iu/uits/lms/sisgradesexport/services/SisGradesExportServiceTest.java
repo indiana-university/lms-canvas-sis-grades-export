@@ -39,7 +39,7 @@ import edu.iu.uits.lms.canvas.model.Grades;
 import edu.iu.uits.lms.canvas.model.User;
 import edu.iu.uits.lms.canvas.services.CourseService;
 import edu.iu.uits.lms.canvas.services.SectionService;
-import edu.iu.uits.lms.iuonly.services.SudsServiceImpl;
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.sisgradesexport.model.CsvResponse;
 import edu.iu.uits.lms.sisgradesexport.service.SisGradeAuditService;
 import edu.iu.uits.lms.sisgradesexport.service.SisGradesExportService;
@@ -71,7 +71,7 @@ public class SisGradesExportServiceTest {
    private SectionService sectionService;
 
    @MockBean
-   private SudsServiceImpl sudsService;
+   private SisServiceImpl sisService;
 
    @MockBean
    private SisGradeAuditService sisGradeAuditService;

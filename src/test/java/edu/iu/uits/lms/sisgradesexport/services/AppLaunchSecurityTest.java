@@ -33,6 +33,7 @@ package edu.iu.uits.lms.sisgradesexport.services;
  * #L%
  */
 
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.config.TestUtils;
 import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
@@ -65,6 +66,9 @@ public class AppLaunchSecurityTest {
 
    @MockBean
    private SisGradesExportService sisGradesExportService;
+
+   @MockBean
+   private SisServiceImpl sisService;
 
    @Test
    public void appNoAuthnLaunch() throws Exception {

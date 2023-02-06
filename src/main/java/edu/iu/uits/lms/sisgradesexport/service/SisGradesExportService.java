@@ -39,7 +39,7 @@ import edu.iu.uits.lms.canvas.model.Grades;
 import edu.iu.uits.lms.canvas.model.Section;
 import edu.iu.uits.lms.canvas.services.CourseService;
 import edu.iu.uits.lms.canvas.services.SectionService;
-import edu.iu.uits.lms.iuonly.services.SudsServiceImpl;
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.sisgradesexport.model.CsvResponse;
 import edu.iu.uits.lms.sisgradesexport.model.SisGrade;
 import edu.iu.uits.lms.sisgradesexport.model.SisInfo;
@@ -68,7 +68,7 @@ public class SisGradesExportService {
     private SectionService sectionService;
 
     @Autowired
-    private SudsServiceImpl sudsService;
+    private SisServiceImpl sisService;
 
     @Autowired
     private SisGradeAuditService sisGradeAuditService;
@@ -119,7 +119,7 @@ public class SisGradesExportService {
 
         List<Enrollment> enrollments;
 
-        int iuoccCourseCount = sudsService.getIuoccCourseCount(sisSectionId);
+        int iuoccCourseCount = sisService.getIuoccCourseCount(sisSectionId);
         if (iuoccCourseCount > 0) {
             Section section = sectionService.getSection("sis_section_id:" + sisSectionId);
             enrollments = courseService.getStudentCourseEnrollment(section.getCourse_id());

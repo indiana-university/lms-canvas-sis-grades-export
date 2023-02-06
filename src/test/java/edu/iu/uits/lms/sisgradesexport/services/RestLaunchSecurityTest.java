@@ -33,6 +33,7 @@ package edu.iu.uits.lms.sisgradesexport.services;
  * #L%
  */
 
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.config.TestUtils;
 import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
 import edu.iu.uits.lms.sisgradesexport.controller.rest.SisGradesRestController;
@@ -72,6 +73,9 @@ public class RestLaunchSecurityTest {
 
    @MockBean
    private SisGradesExportService sisGradesExportService;
+
+   @MockBean
+   private SisServiceImpl sisService;
 
    @Test
    public void restNoAuthnLaunch() throws Exception {
