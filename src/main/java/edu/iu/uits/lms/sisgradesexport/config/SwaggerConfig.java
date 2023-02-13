@@ -33,34 +33,34 @@ package edu.iu.uits.lms.sisgradesexport.config;
  * #L%
  */
 
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Profile;
 
-import java.util.List;
-
+@Profile("swagger")
 @Configuration
-@EnableWebMvc
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@Slf4j
-public class ApplicationConfig implements WebMvcConfigurer {
-
-   public ApplicationConfig() {
-      log.debug("ApplicationConfig()");
-   }
-
-   @Override
-   public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-      converters.add(csvMessageConverter());
-   }
+@OpenAPIDefinition(info = @Info(title = "SIS Grades Export REST Endpoints", version = "${sisgradeexport.version}"))
+@SecurityScheme(name = "security_auth_sisgradeexport", type = SecuritySchemeType.OAUTH2,
+      flows = @OAuthFlows(authorizationCode = @OAuthFlow(
+            authorizationUrl = "${springdoc.oAuthFlow.authorizationUrl}",
+            scopes = {@OAuthScope(name = "lms:rest")},
+            tokenUrl = "${springdoc.oAuthFlow.tokenUrl}")))
+public class SwaggerConfig {
 
    @Bean
-   public CsvMessageConverter csvMessageConverter() {
-      CsvMessageConverter csvMessageConverter = new CsvMessageConverter();
-      return csvMessageConverter;
+   public GroupedOpenApi groupedOpenApi() {
+      return GroupedOpenApi.builder()
+            .group("sis-grade-export")
+            .packagesToScan("edu.iu.uits.lms.sisgradesexport.controller.rest")
+            .build();
    }
+
 }

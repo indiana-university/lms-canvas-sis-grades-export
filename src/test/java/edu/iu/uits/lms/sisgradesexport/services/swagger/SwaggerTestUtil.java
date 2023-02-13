@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradesexport.config;
+package edu.iu.uits.lms.sisgradesexport.services.swagger;
 
 /*-
  * #%L
@@ -33,34 +33,16 @@ package edu.iu.uits.lms.sisgradesexport.config;
  * #L%
  */
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
-@EnableWebMvc
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@Slf4j
-public class ApplicationConfig implements WebMvcConfigurer {
+import static edu.iu.uits.lms.iuonly.IuCustomConstants.IUCUSTOM_GROUP_CODE_PATH;
 
-   public ApplicationConfig() {
-      log.debug("ApplicationConfig()");
-   }
+public class SwaggerTestUtil {
 
-   @Override
-   public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-      converters.add(csvMessageConverter());
-   }
-
-   @Bean
-   public CsvMessageConverter csvMessageConverter() {
-      CsvMessageConverter csvMessageConverter = new CsvMessageConverter();
-      return csvMessageConverter;
+   protected static  List<String> getEmbeddedSwaggerToolPaths(List<String> baseList) {
+      List<String> expandedList = new ArrayList<>(baseList);
+      expandedList.add(IUCUSTOM_GROUP_CODE_PATH);
+      return expandedList;
    }
 }

@@ -1,16 +1,49 @@
 package edu.iu.uits.lms.sisgradesexport.service;
 
-import canvas.client.generated.api.CoursesApi;
-import canvas.client.generated.api.SectionsApi;
-import canvas.client.generated.model.Course;
-import canvas.client.generated.model.Enrollment;
-import canvas.client.generated.model.Grades;
-import canvas.client.generated.model.Section;
+/*-
+ * #%L
+ * sis-grades-export
+ * %%
+ * Copyright (C) 2015 - 2023 Indiana University
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the Indiana University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
+import edu.iu.uits.lms.canvas.model.Course;
+import edu.iu.uits.lms.canvas.model.Enrollment;
+import edu.iu.uits.lms.canvas.model.Grades;
+import edu.iu.uits.lms.canvas.model.Section;
+import edu.iu.uits.lms.canvas.services.CourseService;
+import edu.iu.uits.lms.canvas.services.SectionService;
+import edu.iu.uits.lms.iuonly.services.SudsServiceImpl;
 import edu.iu.uits.lms.sisgradesexport.model.CsvResponse;
 import edu.iu.uits.lms.sisgradesexport.model.SisGrade;
 import edu.iu.uits.lms.sisgradesexport.model.SisInfo;
 import edu.iu.uits.lms.sisgradesexport.model.SisUserGrades;
-import iuonly.client.generated.api.SudsApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,13 +62,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SisGradesExportService {
     @Autowired
-    private CoursesApi coursesApi;
+    private CourseService courseService;
 
     @Autowired
-    private SectionsApi sectionsApi;
+    private SectionService sectionService;
 
     @Autowired
-    private SudsApi sudsApi;
+    private SudsServiceImpl sudsService;
 
     @Autowired
     private SisGradeAuditService sisGradeAuditService;
@@ -53,7 +86,7 @@ public class SisGradesExportService {
         List<String> columns = Arrays.asList(new String[]{gradeType});
         log.debug("Preparing to write out grades to csv file for course {}...", courseId);
 
-        List<Enrollment> enrollments = coursesApi.getStudentCourseEnrollment(courseId);
+        List<Enrollment> enrollments = courseService.getStudentCourseEnrollment(courseId);
 
         enrollments = enrollments.stream()
                 .sorted(Comparator.comparing(e -> (e.getUser().getSortableName())))
@@ -66,7 +99,7 @@ public class SisGradesExportService {
 
         SimpleDateFormat dateFormatForFilename = new SimpleDateFormat("yyyy-MM-dd");
 
-        Course course = coursesApi.getCourse(courseId);
+        Course course = courseService.getCourse(courseId);
 
         String fileName = "sis_grade_export_" + course.getSisCourseId() + "_" + dateFormatForFilename.format(currDate) + ".csv";
 
@@ -86,12 +119,12 @@ public class SisGradesExportService {
 
         List<Enrollment> enrollments;
 
-        int iuoccCourseCount = sudsApi.getIuoccCourseCount(sisSectionId);
+        int iuoccCourseCount = sudsService.getIuoccCourseCount(sisSectionId);
         if (iuoccCourseCount > 0) {
-            Section section = sectionsApi.getSection("sis_section_id:" + sisSectionId);
-            enrollments = coursesApi.getStudentCourseEnrollment(section.getCourseId());
+            Section section = sectionService.getSection("sis_section_id:" + sisSectionId);
+            enrollments = courseService.getStudentCourseEnrollment(section.getCourse_id());
         } else {
-            enrollments = sectionsApi.getStudentSectionEnrollments(sisSectionId);
+            enrollments = sectionService.getStudentSectionEnrollments(sisSectionId);
         }
         List<SisUserGrades> sisUserGradesList = new ArrayList<>();
 

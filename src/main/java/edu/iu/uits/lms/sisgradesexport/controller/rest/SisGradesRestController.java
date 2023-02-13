@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradesexport.config;
+package edu.iu.uits.lms.sisgradesexport.controller.rest;
 
 /*-
  * #%L
@@ -33,34 +33,28 @@ package edu.iu.uits.lms.sisgradesexport.config;
  * #L%
  */
 
+import edu.iu.uits.lms.sisgradesexport.service.SisGradesExportService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-@Configuration
-@EnableWebMvc
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@RestController
+@RequestMapping("/rest/sis")
 @Slf4j
-public class ApplicationConfig implements WebMvcConfigurer {
+public class SisGradesRestController {
 
-   public ApplicationConfig() {
-      log.debug("ApplicationConfig()");
+   @Autowired
+   private SisGradesExportService sisGradesExportService = null;
+
+   @GetMapping(value = "/grades/{sisSectionId}",
+         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_XML_VALUE, MediaType.TEXT_PLAIN_VALUE, MediaType.TEXT_HTML_VALUE })
+   public ResponseEntity getInfoForSisFromSisSectionId(@PathVariable String sisSectionId) {
+      return sisGradesExportService.getInfoForSisFromSisSectionId(sisSectionId);
    }
 
-   @Override
-   public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-      converters.add(csvMessageConverter());
-   }
-
-   @Bean
-   public CsvMessageConverter csvMessageConverter() {
-      CsvMessageConverter csvMessageConverter = new CsvMessageConverter();
-      return csvMessageConverter;
-   }
 }

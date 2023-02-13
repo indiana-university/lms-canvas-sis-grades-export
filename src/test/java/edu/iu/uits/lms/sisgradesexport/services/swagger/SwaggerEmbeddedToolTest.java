@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.sisgradesexport.config;
+package edu.iu.uits.lms.sisgradesexport.services.swagger;
 
 /*-
  * #%L
@@ -33,34 +33,22 @@ package edu.iu.uits.lms.sisgradesexport.config;
  * #L%
  */
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import edu.iu.uits.lms.lti.swagger.AbstractSwaggerEmbeddedToolTest;
+import edu.iu.uits.lms.sisgradesexport.WebApplication;
+import edu.iu.uits.lms.sisgradesexport.config.SecurityConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-@Configuration
-@EnableWebMvc
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@Slf4j
-public class ApplicationConfig implements WebMvcConfigurer {
+import static edu.iu.uits.lms.iuonly.IuCustomConstants.IUCUSTOMREST_PROFILE;
 
-   public ApplicationConfig() {
-      log.debug("ApplicationConfig()");
-   }
+@SpringBootTest(classes = {WebApplication.class, SecurityConfig.class})
+@ActiveProfiles({IUCUSTOMREST_PROFILE})
+public class SwaggerEmbeddedToolTest extends AbstractSwaggerEmbeddedToolTest {
 
    @Override
-   public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-      converters.add(csvMessageConverter());
-   }
-
-   @Bean
-   public CsvMessageConverter csvMessageConverter() {
-      CsvMessageConverter csvMessageConverter = new CsvMessageConverter();
-      return csvMessageConverter;
+   protected List<String> getEmbeddedSwaggerToolPaths() {
+      return SwaggerTestUtil.getEmbeddedSwaggerToolPaths(super.getEmbeddedSwaggerToolPaths());
    }
 }
