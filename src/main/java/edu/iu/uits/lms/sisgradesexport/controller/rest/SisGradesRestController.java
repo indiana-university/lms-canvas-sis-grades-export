@@ -51,8 +51,7 @@ public class SisGradesRestController {
    @Autowired
    private SisGradesExportService sisGradesExportService = null;
 
-   @GetMapping(value = "/grades/{sisSectionId}",
-         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_XML_VALUE, MediaType.TEXT_PLAIN_VALUE, MediaType.TEXT_HTML_VALUE })
+   @GetMapping(value = {"/grades/{sisSectionId}", "/grades/{sisSectionId}.json"}, produces = {MediaType.APPLICATION_JSON_VALUE })
    public ResponseEntity getInfoForSisFromSisSectionId(@PathVariable String sisSectionId) {
       return sisGradesExportService.getInfoForSisFromSisSectionId(sisSectionId);
    }
