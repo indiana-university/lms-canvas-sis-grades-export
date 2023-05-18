@@ -33,15 +33,20 @@ package edu.iu.uits.lms.sisgradesexport.services.swagger;
  * #L%
  */
 
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.swagger.AbstractSwaggerUiCustomTest;
 import edu.iu.uits.lms.sisgradesexport.WebApplication;
 import edu.iu.uits.lms.sisgradesexport.config.SecurityConfig;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
 @SpringBootTest(classes = {WebApplication.class, SecurityConfig.class})
 public class SwaggerUiCustomTest extends AbstractSwaggerUiCustomTest {
+
+   @MockBean
+   private SisServiceImpl sisService;
 
    @Override
    protected List<String> getEmbeddedSwaggerToolPaths() {
