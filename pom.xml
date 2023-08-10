@@ -77,7 +77,7 @@
         <java.version>17</java.version>
         <jdk.source>17</jdk.source>
         <jdk.target>17</jdk.target>
-        <lms-embedded-services.version>5.2.12</lms-embedded-services.version>
+        <lms-embedded-services.version>5.2.14</lms-embedded-services.version>
         <lms-team-spring-boot-it12>4.8</lms-team-spring-boot-it12>
         <opencsv.version>5.8</opencsv.version>
         <spring-cloud-starter-parent.version>2021.0.8</spring-cloud-starter-parent.version>
