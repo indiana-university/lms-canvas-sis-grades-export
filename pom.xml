@@ -82,7 +82,6 @@
         <opencsv.version>5.8</opencsv.version>
         <spring-cloud-starter-parent.version>2021.0.8</spring-cloud-starter-parent.version>
         <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
-        <spring-security-bom.version>5.5.2</spring-security-bom.version>
 
         <plugins.compiler.version>3.11.0</plugins.compiler.version>
         <plugins.gpg.version>3.1.0</plugins.gpg.version>
