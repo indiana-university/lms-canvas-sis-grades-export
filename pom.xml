@@ -13,7 +13,7 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
-    <version>0.99.4-SNAPSHOT</version>
+    <version>5.0.4-SNAPSHOT</version>
     <description>LTI tool which exports sis grades</description>
     <url>https://github.com/indiana-university/lms-canvas-sis-grades-export</url>
     <inceptionYear>2015</inceptionYear>
