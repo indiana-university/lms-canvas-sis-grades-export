@@ -34,6 +34,7 @@ package edu.iu.uits.lms.sisgradesexport.repository;
  */
 
 import edu.iu.uits.lms.sisgradesexport.model.SisGradeAudit;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +45,7 @@ import java.util.List;
  */
 
 @Component
-public interface SisGradeAuditRepository extends PagingAndSortingRepository<SisGradeAudit, Long> {
+public interface SisGradeAuditRepository extends PagingAndSortingRepository<SisGradeAudit, Long>, ListCrudRepository<SisGradeAudit, Long> {
 
     List<SisGradeAudit> findByUserId(String userId);
     List<SisGradeAudit> findBySisSectionId(String courseId);
