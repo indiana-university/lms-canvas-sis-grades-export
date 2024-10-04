@@ -33,31 +33,34 @@ package edu.iu.uits.lms.sisgradesexport.services;
  * #L%
  */
 
-import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.config.TestUtils;
+import edu.iu.uits.lms.lti.controller.InvalidTokenContextException;
+import edu.iu.uits.lms.lti.service.LmsDefaultGrantedAuthoritiesMapper;
+import edu.iu.uits.lms.sisgradesexport.config.SecurityConfig;
 import edu.iu.uits.lms.sisgradesexport.config.ToolConfig;
 import edu.iu.uits.lms.sisgradesexport.controller.SisGradesExportController;
 import edu.iu.uits.lms.sisgradesexport.service.SisGradesExportService;
+import jakarta.servlet.ServletException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import uk.ac.ox.ctl.lti13.security.oauth2.client.lti.authentication.OidcAuthenticationToken;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = SisGradesExportController.class, properties = {"oauth.tokenprovider.url=http://foo"})
-@Import(ToolConfig.class)
+@ContextConfiguration(classes = {SisGradesExportController.class, SecurityConfig.class, ToolConfig.class})
 @ActiveProfiles("none")
 public class AppLaunchSecurityTest {
 
@@ -68,7 +71,10 @@ public class AppLaunchSecurityTest {
    private SisGradesExportService sisGradesExportService;
 
    @MockBean
-   private SisServiceImpl sisService;
+   private LmsDefaultGrantedAuthoritiesMapper defaultGrantedAuthoritiesMapper;
+
+   @MockBean
+   private ClientRegistrationRepository clientRegistrationRepository;
 
    @Test
    public void appNoAuthnLaunch() throws Exception {
@@ -85,13 +91,14 @@ public class AppLaunchSecurityTest {
 
       SecurityContextHolder.getContext().setAuthentication(token);
 
-      //This is a secured endpoint and should not allow access without authn
-      ResultActions mockMvcAction = mvc.perform(get("/app/index/1234")
-              .header(HttpHeaders.USER_AGENT, TestUtils.defaultUseragent())
-              .contentType(MediaType.APPLICATION_JSON));
+      ServletException t = Assertions.assertThrows(ServletException.class, () ->
+              mvc.perform(get("/app/index/1234")
+                      .header(HttpHeaders.USER_AGENT, TestUtils.defaultUseragent())
+                      .contentType(MediaType.APPLICATION_JSON))
+      );
 
-      mockMvcAction.andExpect(status().isInternalServerError());
-      mockMvcAction.andExpect(MockMvcResultMatchers.view().name ("globalAccessDenied"));
+      Assertions.assertInstanceOf(InvalidTokenContextException.class, t.getCause());
+      Assertions.assertEquals("Context in authentication token does not match request context", t.getCause().getMessage());
    }
 
    @Test
