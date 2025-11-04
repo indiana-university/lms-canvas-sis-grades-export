@@ -86,7 +86,7 @@ public class SisGradesExportService {
         List<String> columns = Arrays.asList(new String[]{gradeType});
         log.debug("Preparing to write out grades to csv file for course {}...", courseId);
 
-        List<Enrollment> enrollments = courseService.getStudentCourseEnrollment(courseId);
+        List<Enrollment> enrollments = courseService.getStudentCourseEnrollments(courseId);
 
         enrollments = enrollments.stream()
                 .sorted(Comparator.comparing(e -> (e.getUser().getSortableName())))
@@ -122,7 +122,7 @@ public class SisGradesExportService {
         int iuoccCourseCount = sisService.getIuoccCourseCount(sisSectionId);
         if (iuoccCourseCount > 0) {
             Section section = sectionService.getSection("sis_section_id:" + sisSectionId);
-            enrollments = courseService.getStudentCourseEnrollment(section.getCourse_id());
+            enrollments = courseService.getStudentCourseEnrollments(section.getCourse_id());
         } else {
             enrollments = sectionService.getStudentSectionEnrollments(sisSectionId);
         }
