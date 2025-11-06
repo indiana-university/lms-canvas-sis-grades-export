@@ -111,7 +111,7 @@ public class SisGradesExportServiceTest {
 
       final String courseId = "1234";
 
-      Mockito.when(courseService.getStudentCourseEnrollment(courseId))
+      Mockito.when(courseService.getStudentCourseEnrollments(courseId))
               .thenReturn(Arrays.asList(enrollment1, enrollment2, enrollment3));
 
       Course returnedCourse = new Course();
