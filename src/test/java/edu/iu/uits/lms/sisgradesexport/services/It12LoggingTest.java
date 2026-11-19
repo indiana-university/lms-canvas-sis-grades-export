@@ -45,7 +45,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.health.autoconfigure.contributor.HealthContributorAutoConfiguration;
 import org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointAutoConfiguration;
-import org.springframework.boot.mail.autoconfigure.MailHealthContributorAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
@@ -84,8 +83,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "lms.js.cors.origin=123"})
 @AutoConfigureMockMvc
 @ActiveProfiles({"sisgradesexport", "it12"})
-@EnableAutoConfiguration(exclude = {HealthContributorAutoConfiguration.class, HealthEndpointAutoConfiguration.class,
-        MailHealthContributorAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {HealthContributorAutoConfiguration.class, HealthEndpointAutoConfiguration.class})
 @AutoConfigureTestDatabase
 @Slf4j
 public class It12LoggingTest {
