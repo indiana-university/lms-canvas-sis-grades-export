@@ -4,7 +4,7 @@ package edu.iu.uits.lms.sisgradesexport.services;
  * #%L
  * sis-grades-export
  * %%
- * Copyright (C) 2015 - 2025 Indiana University
+ * Copyright (C) 2015 - 2026 Indiana University
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -64,16 +64,16 @@ public class SisGradesExportServiceTest {
    @Autowired
    private SisGradesExportService sisGradesExportService;
 
-   @MockBean
+   @MockitoBean
    private CourseService courseService;
 
-   @MockBean
+   @MockitoBean
    private SectionService sectionService;
 
-   @MockBean
+   @MockitoBean
    private SisServiceImpl sisService;
 
-   @MockBean
+   @MockitoBean
    private SisGradeAuditService sisGradeAuditService;
 
    @Test
